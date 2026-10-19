@@ -52,7 +52,6 @@
     </script>
 
     <style>
-        /* Theme Variables */
         :root[data-theme="pink"] { --color-50: #fff0f5; --color-100: #ffe4e6; --color-200: #fecdd3; --color-300: #fda4af; --color-400: #fb7185; --color-500: #f43f5e; --color-600: #e11d48; --color-700: #be123c; --bg-body: #fff5f7; --panel-bg: rgba(255, 255, 255, 0.85); --text-main: #1e293b; }
         :root[data-theme="purple"] { --color-50: #f5f3ff; --color-100: #ede9fe; --color-200: #ddd6fe; --color-300: #c4b5fd; --color-400: #a78bfa; --color-500: #8b5cf6; --color-600: #7c3aed; --color-700: #6d28d9; --bg-body: #faf5ff; --panel-bg: rgba(255, 255, 255, 0.85); --text-main: #1e293b; }
         :root[data-theme="mint"] { --color-50: #f0fdf4; --color-100: #dcfce7; --color-200: #bbf7d0; --color-300: #86efac; --color-400: #4ade80; --color-500: #22c55e; --color-600: #16a34a; --color-700: #15803d; --bg-body: #f0fdf4; --panel-bg: rgba(255, 255, 255, 0.85); --text-main: #1e293b; }
@@ -145,28 +144,47 @@
 
             <!-- ================= TAB 1: KEUANGAN ================= -->
             <section id="tab-money" class="space-y-6 animate-fade-in">
-                <!-- Sisa Saldo -->
+                
+                <!-- Sisa Saldo Total -->
                 <div class="glass-panel rounded-3xl p-6 md:p-8 shadow-sm relative overflow-hidden flex flex-col justify-center border border-white/20">
                     <div class="absolute -right-10 -bottom-10 w-40 h-40 bg-brand-400/20 rounded-full blur-3xl"></div>
-                    <h3 class="text-sm font-semibold opacity-70 uppercase tracking-wide">Total Sisa Saldo</h3>
-                    <div class="text-4xl md:text-5xl font-display font-bold mt-2 mb-6" id="totalBalance">Rp 0</div>
+                    <div class="flex justify-between items-center">
+                        <h3 class="text-xs font-bold opacity-70 uppercase tracking-wide">Total Gabungan Saldo</h3>
+                        <span class="text-[10px] font-bold bg-brand-500/10 text-brand-600 px-2.5 py-1 rounded-full" id="monthLabelSummary">Bulan Ini</span>
+                    </div>
+                    <div class="text-3xl md:text-5xl font-display font-bold mt-2 mb-6" id="totalBalance">Rp 0</div>
                     
-                    <div class="flex gap-4">
-                        <div class="bg-emerald-500/10 p-3 md:p-4 rounded-2xl flex-1 border border-emerald-500/20">
-                            <span class="text-xs md:text-sm font-bold text-emerald-500 flex items-center gap-1"><i data-lucide="arrow-down-left" class="w-4 h-4"></i> Pemasukan</span>
-                            <p id="totalIncome" class="font-display font-bold text-base md:text-xl mt-1">Rp 0</p>
+                    <div class="grid grid-cols-2 gap-3 md:gap-4">
+                        <div class="bg-emerald-500/10 p-3 md:p-4 rounded-2xl border border-emerald-500/20">
+                            <span class="text-xs font-bold text-emerald-500 flex items-center gap-1"><i data-lucide="arrow-down-left" class="w-4 h-4"></i> Masuk (Bulan Ini)</span>
+                            <p id="totalIncome" class="font-display font-bold text-sm md:text-lg mt-1">Rp 0</p>
                         </div>
-                        <div class="bg-rose-500/10 p-3 md:p-4 rounded-2xl flex-1 border border-rose-500/20">
-                            <span class="text-xs md:text-sm font-bold text-rose-500 flex items-center gap-1"><i data-lucide="arrow-up-right" class="w-4 h-4"></i> Pengeluaran</span>
-                            <p id="totalExpense" class="font-display font-bold text-base md:text-xl mt-1">Rp 0</p>
+                        <div class="bg-rose-500/10 p-3 md:p-4 rounded-2xl border border-rose-500/20">
+                            <span class="text-xs font-bold text-rose-500 flex items-center gap-1"><i data-lucide="arrow-up-right" class="w-4 h-4"></i> Keluar (Bulan Ini)</span>
+                            <p id="totalExpense" class="font-display font-bold text-sm md:text-lg mt-1">Rp 0</p>
                         </div>
                     </div>
                 </div>
 
-                <!-- NEW: PAYLATER CARD -->
+                <!-- SALDO PER AKUN (BANK, GOPAY, OVO, ETC.) -->
+                <div class="glass-panel rounded-3xl p-6 shadow-sm border border-white/20">
+                    <div class="flex justify-between items-center mb-4">
+                        <h3 class="font-display font-bold text-base flex items-center gap-2">
+                            <i data-lucide="landmark" class="w-5 h-5 text-brand-500"></i> Rincian Saldo Akun / Bank
+                        </h3>
+                        <button onclick="openModal('accountsModal')" class="text-xs font-bold bg-brand-500/10 text-brand-600 px-3 py-1.5 rounded-xl hover:bg-brand-500/20 transition">
+                            Kelola Akun
+                        </button>
+                    </div>
+                    <div id="accountsGrid" class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-3">
+                        <!-- Rendered by JS -->
+                    </div>
+                </div>
+
+                <!-- PAYLATER CARD -->
                 <div class="glass-panel rounded-3xl p-6 shadow-sm border border-rose-500/30 bg-rose-500/5 relative overflow-hidden">
                     <div class="flex justify-between items-center mb-4">
-                        <h3 class="font-display font-bold text-lg flex items-center gap-2 text-rose-600 dark:text-rose-400">
+                        <h3 class="font-display font-bold text-base flex items-center gap-2 text-rose-600 dark:text-rose-400">
                             <i data-lucide="credit-card" class="w-5 h-5"></i> Tagihan Paylater
                         </h3>
                         <button onclick="openModal('paylaterModal')" class="text-xs font-bold bg-rose-500/20 text-rose-600 px-3 py-1.5 rounded-xl hover:bg-rose-500/30 transition">
@@ -174,15 +192,14 @@
                         </button>
                     </div>
                     <div class="text-2xl font-display font-bold text-rose-500 mb-4" id="totalPaylater">Rp 0</div>
-                    <div id="paylaterList" class="space-y-2 max-h-48 overflow-y-auto hide-scrollbar">
-                        <!-- List Paylater -->
-                    </div>
+                    <div id="paylaterList" class="space-y-2 max-h-48 overflow-y-auto hide-scrollbar"></div>
                 </div>
 
+                <!-- ANALISIS & RIWAYAT DENGAN FILTER MULTI -->
                 <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
                     <div class="glass-panel rounded-3xl p-6 shadow-sm flex flex-col">
                         <div class="flex justify-between items-center mb-6">
-                            <h3 class="font-display font-bold text-lg flex items-center gap-2">
+                            <h3 class="font-display font-bold text-base flex items-center gap-2">
                                 <i data-lucide="pie-chart" class="w-5 h-5 text-brand-500"></i> Analisis Pengeluaran
                             </h3>
                             <button onclick="openModal('categoriesModal')" class="text-xs font-bold bg-brand-500/10 text-brand-600 px-3 py-1.5 rounded-xl hover:bg-brand-500/20 transition">
@@ -190,23 +207,49 @@
                             </button>
                         </div>
                         <div class="flex-1 flex flex-col md:flex-row items-center gap-6">
-                            <div class="relative w-48 h-48 flex-shrink-0">
+                            <div class="relative w-44 h-44 flex-shrink-0">
                                 <canvas id="expenseChart"></canvas>
                             </div>
                             <div id="chartLegend" class="w-full md:flex-1 space-y-2 max-h-48 overflow-y-auto hide-scrollbar pr-2"></div>
                         </div>
                     </div>
 
-                    <div class="glass-panel rounded-3xl p-6 shadow-sm flex flex-col h-[400px] md:h-[auto] max-h-[500px]">
-                        <div class="flex justify-between items-center mb-4">
-                            <h3 class="font-display font-bold text-lg flex items-center gap-2">
-                                <i data-lucide="history" class="w-5 h-5 text-brand-500"></i> Riwayat
-                            </h3>
-                            <select id="filterCat" onchange="renderTransactions()" class="bg-transparent border border-brand-500/30 text-xs rounded-xl px-2 py-1 outline-none font-semibold focus:ring-2 focus:ring-brand-500">
-                                <option value="ALL">Semua</option>
-                            </select>
+                    <div class="glass-panel rounded-3xl p-6 shadow-sm flex flex-col h-[480px]">
+                        <div class="flex flex-col gap-3 mb-4 border-b border-slate-200/20 pb-3">
+                            <div class="flex justify-between items-center">
+                                <h3 class="font-display font-bold text-base flex items-center gap-2">
+                                    <i data-lucide="history" class="w-5 h-5 text-brand-500"></i> Riwayat Transaksi
+                                </h3>
+                                <button onclick="resetFilters()" class="text-[10px] font-bold text-brand-500 underline">Reset Filter</button>
+                            </div>
+
+                            <!-- Filter Controls -->
+                            <div class="grid grid-cols-3 gap-2">
+                                <div>
+                                    <label class="block text-[10px] font-bold opacity-60 mb-0.5">Akun</label>
+                                    <select id="filterAcc" onchange="renderTransactions()" class="w-full bg-black/5 dark:bg-slate-700/50 border border-slate-500/20 text-xs rounded-xl px-2 py-1 outline-none font-semibold">
+                                        <option value="ALL">Semua Akun</option>
+                                    </select>
+                                </div>
+                                <div>
+                                    <label class="block text-[10px] font-bold opacity-60 mb-0.5">Kategori</label>
+                                    <select id="filterCat" onchange="renderTransactions()" class="w-full bg-black/5 dark:bg-slate-700/50 border border-slate-500/20 text-xs rounded-xl px-2 py-1 outline-none font-semibold">
+                                        <option value="ALL">Semua Kategori</option>
+                                    </select>
+                                </div>
+                                <div>
+                                    <label class="block text-[10px] font-bold opacity-60 mb-0.5">Bulan/Tanggal</label>
+                                    <input type="date" id="filterDate" onchange="renderTransactions()" class="w-full bg-black/5 dark:bg-slate-700/50 border border-slate-500/20 text-xs rounded-xl px-2 py-1 outline-none font-semibold">
+                                </div>
+                            </div>
                         </div>
-                        <div id="transactionList" class="flex-1 overflow-y-auto space-y-3 hide-scrollbar pr-2"></div>
+
+                        <div id="filterSummaryBanner" class="hidden text-xs font-bold bg-brand-500/10 text-brand-600 p-2.5 rounded-xl mb-3 flex justify-between items-center">
+                            <span id="filterSummaryText">Filter Aktif</span>
+                            <span id="filterSummaryAmount" class="font-display">Rp 0</span>
+                        </div>
+
+                        <div id="transactionList" class="flex-1 overflow-y-auto space-y-3 hide-scrollbar pr-1"></div>
                     </div>
                 </div>
             </section>
@@ -243,16 +286,16 @@
                         <div><label class="block text-sm font-bold opacity-80 mb-1">Quote Penyemangat</label><textarea id="setQuote" rows="2" class="w-full p-3 rounded-xl bg-black/5 border border-slate-500/20 focus:border-brand-500 text-sm font-medium outline-none"></textarea></div>
                         <div>
                             <label class="block text-sm font-bold opacity-80 mb-1 flex items-center gap-2"><i data-lucide="headphones" class="w-4 h-4 text-green-500"></i> Spotify Link</label>
-                            <input type="text" id="setSpotify" placeholder="Misal: https://open.spotify.com/playlist/..." class="w-full p-3 rounded-xl bg-black/5 border border-slate-500/20 focus:border-brand-500 text-sm font-medium outline-none">
+                            <input type="text" id="setSpotify" placeholder="https://open.spotify.com/playlist/..." class="w-full p-3 rounded-xl bg-black/5 border border-slate-500/20 focus:border-brand-500 text-sm font-medium outline-none">
                         </div>
                         <div>
                             <label class="block text-sm font-bold opacity-80 mb-3">Tema Warna</label>
                             <div class="grid grid-cols-5 gap-2">
-                                <button onclick="changeTheme('pink')" class="h-10 rounded-xl bg-[#f43f5e] shadow-sm hover:scale-110 transition border-2 border-transparent focus:border-white"></button>
-                                <button onclick="changeTheme('purple')" class="h-10 rounded-xl bg-[#8b5cf6] shadow-sm hover:scale-110 transition border-2 border-transparent focus:border-white"></button>
-                                <button onclick="changeTheme('mint')" class="h-10 rounded-xl bg-[#22c55e] shadow-sm hover:scale-110 transition border-2 border-transparent focus:border-white"></button>
-                                <button onclick="changeTheme('peach')" class="h-10 rounded-xl bg-[#f97316] shadow-sm hover:scale-110 transition border-2 border-transparent focus:border-white"></button>
-                                <button onclick="changeTheme('dark')" class="h-10 rounded-xl bg-[#334155] shadow-sm hover:scale-110 transition border-2 border-transparent focus:border-white"></button>
+                                <button onclick="changeTheme('pink')" class="h-10 rounded-xl bg-[#f43f5e] shadow-sm border-2 border-transparent focus:border-white"></button>
+                                <button onclick="changeTheme('purple')" class="h-10 rounded-xl bg-[#8b5cf6] shadow-sm border-2 border-transparent focus:border-white"></button>
+                                <button onclick="changeTheme('mint')" class="h-10 rounded-xl bg-[#22c55e] shadow-sm border-2 border-transparent focus:border-white"></button>
+                                <button onclick="changeTheme('peach')" class="h-10 rounded-xl bg-[#f97316] shadow-sm border-2 border-transparent focus:border-white"></button>
+                                <button onclick="changeTheme('dark')" class="h-10 rounded-xl bg-[#334155] shadow-sm border-2 border-transparent focus:border-white"></button>
                             </div>
                         </div>
                         <button onclick="savePersonalization()" class="w-full bg-brand-500 text-white font-bold py-3.5 rounded-xl shadow-md hover:bg-brand-600 transition flex justify-center items-center gap-2 mt-4"><i data-lucide="save" class="w-5 h-5"></i> Simpan Perubahan</button>
@@ -284,8 +327,8 @@
     <!-- MODALS -->
     <!-- Action Menu -->
     <div id="actionMenuModal" class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-50 flex items-end md:items-center justify-center hidden" onclick="closeModal('actionMenuModal')">
-        <div class="bg-white dark:bg-slate-800 w-full max-w-md rounded-t-3xl md:rounded-3xl p-6 space-y-4 shadow-2xl transform transition-transform" onclick="event.stopPropagation()">
-            <h3 class="font-display font-bold text-center mb-4">Mau tambah apa nih?</h3>
+        <div class="bg-white dark:bg-slate-800 w-full max-w-md rounded-t-3xl md:rounded-3xl p-6 space-y-4 shadow-2xl" onclick="event.stopPropagation()">
+            <h3 class="font-display font-bold text-center mb-4">Mau catat apa nih?</h3>
             <div class="grid grid-cols-3 gap-4">
                 <button onclick="closeModal('actionMenuModal'); openModal('transactionModal')" class="bg-brand-500/10 hover:bg-brand-500/20 p-4 rounded-2xl flex flex-col items-center gap-2 text-brand-600 font-bold transition"><i data-lucide="wallet" class="w-6 h-6"></i><span class="text-xs">Uang</span></button>
                 <button onclick="closeModal('actionMenuModal'); openModal('journalModal')" class="bg-purple-500/10 hover:bg-purple-500/20 p-4 rounded-2xl flex flex-col items-center gap-2 text-purple-600 font-bold transition"><i data-lucide="book-open" class="w-6 h-6"></i><span class="text-xs">Jurnal</span></button>
@@ -294,59 +337,160 @@
         </div>
     </div>
 
-    <!-- Paylater Modal -->
+    <!-- Modal Transaksi -->
+    <div id="transactionModal" class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-50 flex items-center justify-center p-4 hidden" onclick="closeModal('transactionModal')">
+        <div class="bg-white dark:bg-slate-800 w-full max-w-lg rounded-3xl p-6 shadow-2xl max-h-[90vh] overflow-y-auto" onclick="event.stopPropagation()">
+            <div class="flex justify-between items-center mb-5"><h3 class="font-display font-bold text-xl">Catat Transaksi</h3><button onclick="closeModal('transactionModal')" class="text-slate-400 bg-slate-100 dark:bg-slate-700 p-2 rounded-full"><i data-lucide="x" class="w-5 h-5"></i></button></div>
+            <form onsubmit="saveTransaction(event)" class="space-y-4 text-slate-800 dark:text-slate-200">
+                <div class="grid grid-cols-2 gap-2 p-1 bg-slate-100 dark:bg-slate-700 rounded-2xl">
+                    <button type="button" id="btnExpense" onclick="setTxType('expense')" class="py-2.5 text-sm font-bold rounded-xl bg-white dark:bg-slate-600 shadow-sm text-rose-500 transition">Pengeluaran</button>
+                    <button type="button" id="btnIncome" onclick="setTxType('income')" class="py-2.5 text-sm font-bold rounded-xl text-slate-500 dark:text-slate-300 transition">Pemasukan</button>
+                </div>
+                <input type="hidden" id="txType" value="expense">
+                
+                <div>
+                    <label class="block text-xs font-bold opacity-70 mb-1">Nominal (Rp)</label>
+                    <input type="text" id="txAmount" oninput="formatCurrencyInput(this)" placeholder="0" required class="w-full p-4 rounded-2xl bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-700 focus:outline-none focus:ring-2 focus:ring-brand-400 text-2xl font-display font-bold">
+                </div>
+
+                <!-- PILIH AKUN/BANK -->
+                <div>
+                    <label class="block text-xs font-bold opacity-70 mb-1">Pilih Akun / Bank</label>
+                    <select id="txAccount" required class="w-full p-3.5 rounded-xl bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-700 outline-none focus:ring-2 focus:ring-brand-400 text-sm font-semibold"></select>
+                </div>
+
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                    <div>
+                        <label class="block text-xs font-bold opacity-70 mb-1">Kategori</label>
+                        <select id="txCategory" required class="w-full p-3.5 rounded-xl bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-700 outline-none focus:ring-2 focus:ring-brand-400 text-sm font-semibold"></select>
+                    </div>
+                    <div>
+                        <label class="block text-xs font-bold opacity-70 mb-1">Tanggal</label>
+                        <input type="date" id="txDate" required class="w-full p-3.5 rounded-xl bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-700 outline-none focus:ring-2 focus:ring-brand-400 text-sm font-semibold">
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                    <div>
+                        <label class="block text-xs font-bold opacity-70 mb-1">Keterangan</label>
+                        <input type="text" id="txNote" placeholder="Mis: Beli Seblak" required class="w-full p-3.5 rounded-xl bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-700 outline-none focus:ring-2 focus:ring-brand-400 text-sm font-semibold">
+                    </div>
+                    <div>
+                        <label class="block text-xs font-bold opacity-70 mb-1">Lokasi</label>
+                        <input type="text" id="txLocation" placeholder="Opsional" class="w-full p-3.5 rounded-xl bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-700 outline-none focus:ring-2 focus:ring-brand-400 text-sm font-semibold">
+                    </div>
+                </div>
+
+                <div>
+                    <label class="block text-xs font-bold opacity-70 mb-1">Foto Struk</label>
+                    <input type="file" accept="image/*" onchange="handleImageInput(this, 'txImgPreview')" class="block w-full text-xs file:mr-4 file:py-2 file:px-4 file:rounded-xl file:border-0 file:text-xs file:font-bold file:bg-brand-500/20 file:text-brand-600 cursor-pointer">
+                    <img id="txImgPreview" src="" class="mt-3 rounded-xl max-h-32 object-cover hidden shadow-sm cursor-pointer" onclick="openLightbox(this.src)">
+                </div>
+
+                <button type="submit" class="w-full bg-brand-500 text-white font-bold py-4 rounded-2xl shadow-md hover:bg-brand-600 transition">Simpan Transaksi</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Modal Kelola Akun -->
+    <div id="accountsModal" class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-50 flex items-center justify-center p-4 hidden" onclick="closeModal('accountsModal')">
+        <div class="bg-white dark:bg-slate-800 w-full max-w-md rounded-3xl p-6 shadow-2xl" onclick="event.stopPropagation()">
+            <div class="flex justify-between items-center mb-5"><h3 class="font-display font-bold text-xl">Kelola Akun / Bank</h3><button onclick="closeModal('accountsModal')" class="text-slate-400 bg-slate-100 dark:bg-slate-700 p-2 rounded-full"><i data-lucide="x" class="w-5 h-5"></i></button></div>
+            <form onsubmit="addAccount(event)" class="flex gap-2 mb-4">
+                <input type="text" id="accIcon" placeholder="🏦" required class="w-14 p-3 rounded-xl bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-700 text-center text-lg">
+                <input type="text" id="accName" placeholder="Nama Akun / Bank" required class="flex-1 p-3 rounded-xl bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-700 text-sm font-semibold">
+                <button type="submit" class="bg-brand-500 text-white px-4 rounded-xl font-bold"><i data-lucide="plus" class="w-5 h-5"></i></button>
+            </form>
+            <div id="accountManageList" class="space-y-2 max-h-60 overflow-y-auto hide-scrollbar"></div>
+        </div>
+    </div>
+
+    <!-- Modal Paylater -->
     <div id="paylaterModal" class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-50 flex items-center justify-center p-4 hidden" onclick="closeModal('paylaterModal')">
         <div class="bg-white dark:bg-slate-800 w-full max-w-lg rounded-3xl p-6 shadow-2xl" onclick="event.stopPropagation()">
-            <div class="flex justify-between items-center mb-5">
-                <h3 class="font-display font-bold text-xl text-rose-500"><i data-lucide="credit-card" class="inline w-5 h-5 mr-1 mb-1"></i> Catat Paylater</h3>
-                <button onclick="closeModal('paylaterModal')" class="text-slate-400 bg-slate-100 dark:bg-slate-700 p-2 rounded-full"><i data-lucide="x" class="w-5 h-5"></i></button>
-            </div>
+            <div class="flex justify-between items-center mb-5"><h3 class="font-display font-bold text-xl text-rose-500"><i data-lucide="credit-card" class="inline w-5 h-5 mr-1 mb-1"></i> Catat Paylater</h3><button onclick="closeModal('paylaterModal')" class="text-slate-400 bg-slate-100 dark:bg-slate-700 p-2 rounded-full"><i data-lucide="x" class="w-5 h-5"></i></button></div>
             <form onsubmit="savePaylater(event)" class="space-y-4">
-                <div>
-                    <label class="block text-xs font-bold opacity-70 mb-1">Nama Tagihan</label>
-                    <input type="text" id="plName" placeholder="Misal: Shopee Paylater" required class="w-full p-3.5 rounded-xl bg-slate-50 dark:bg-slate-900 border border-slate-200 outline-none focus:ring-2 focus:ring-rose-400 text-sm font-semibold">
-                </div>
-                <div>
-                    <label class="block text-xs font-bold opacity-70 mb-1">Nominal Tagihan (Rp)</label>
-                    <input type="text" id="plAmount" oninput="formatCurrencyInput(this)" placeholder="0" required class="w-full p-4 rounded-2xl bg-slate-50 dark:bg-slate-900 border border-slate-200 outline-none focus:ring-2 focus:ring-rose-400 text-2xl font-display font-bold text-rose-500">
-                </div>
-                <div>
-                    <label class="block text-xs font-bold opacity-70 mb-1">Tanggal Jatuh Tempo</label>
-                    <input type="date" id="plDate" required class="w-full p-3.5 rounded-xl bg-slate-50 dark:bg-slate-900 border border-slate-200 outline-none focus:ring-2 focus:ring-rose-400 text-sm font-semibold">
-                </div>
+                <div><label class="block text-xs font-bold opacity-70 mb-1">Nama Tagihan</label><input type="text" id="plName" placeholder="Misal: Shopee Paylater" required class="w-full p-3.5 rounded-xl bg-slate-50 dark:bg-slate-900 border border-slate-200 outline-none focus:ring-2 focus:ring-rose-400 text-sm font-semibold"></div>
+                <div><label class="block text-xs font-bold opacity-70 mb-1">Nominal Tagihan (Rp)</label><input type="text" id="plAmount" oninput="formatCurrencyInput(this)" placeholder="0" required class="w-full p-4 rounded-2xl bg-slate-50 dark:bg-slate-900 border border-slate-200 outline-none focus:ring-2 focus:ring-rose-400 text-2xl font-display font-bold text-rose-500"></div>
+                <div><label class="block text-xs font-bold opacity-70 mb-1">Tanggal Jatuh Tempo</label><input type="date" id="plDate" required class="w-full p-3.5 rounded-xl bg-slate-50 dark:bg-slate-900 border border-slate-200 outline-none focus:ring-2 focus:ring-rose-400 text-sm font-semibold"></div>
                 <button type="submit" class="w-full bg-rose-500 text-white font-bold py-4 rounded-2xl shadow-md hover:bg-rose-600 transition mt-2">Simpan Tagihan</button>
             </form>
         </div>
     </div>
 
-    <!-- Transaction Modal & Categories Modal & Journal Modal & Lightbox... (Persis sama kaya sebelumnya, gue singkat biar rapi tapi ada full kodenya) -->
-    <!-- (Semua modal transaksi dan jurnal tetep ada persis kaya versi lo tadi) -->
-    <div id="transactionModal" class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-50 flex items-center justify-center p-4 hidden" onclick="closeModal('transactionModal')"><div class="bg-white dark:bg-slate-800 w-full max-w-lg rounded-3xl p-6 shadow-2xl max-h-[90vh] overflow-y-auto" onclick="event.stopPropagation()"><div class="flex justify-between items-center mb-5"><h3 class="font-display font-bold text-xl">Catat Transaksi</h3><button onclick="closeModal('transactionModal')" class="text-slate-400 bg-slate-100 dark:bg-slate-700 p-2 rounded-full"><i data-lucide="x" class="w-5 h-5"></i></button></div><form onsubmit="saveTransaction(event)" class="space-y-4 text-slate-800 dark:text-slate-200"><div class="grid grid-cols-2 gap-2 p-1 bg-slate-100 dark:bg-slate-700 rounded-2xl"><button type="button" id="btnExpense" onclick="setTxType('expense')" class="py-2.5 text-sm font-bold rounded-xl bg-white dark:bg-slate-600 shadow-sm text-rose-500 transition">Pengeluaran</button><button type="button" id="btnIncome" onclick="setTxType('income')" class="py-2.5 text-sm font-bold rounded-xl text-slate-500 dark:text-slate-300 transition">Pemasukan</button></div><input type="hidden" id="txType" value="expense"><div><label class="block text-xs font-bold opacity-70 mb-1">Nominal (Rp)</label><input type="text" id="txAmount" oninput="formatCurrencyInput(this)" placeholder="0" required class="w-full p-4 rounded-2xl bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-700 focus:outline-none focus:ring-2 focus:ring-brand-400 text-2xl font-display font-bold"></div><div class="grid grid-cols-1 sm:grid-cols-2 gap-4"><div><label class="block text-xs font-bold opacity-70 mb-1">Kategori</label><select id="txCategory" required class="w-full p-3.5 rounded-xl bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-700 outline-none focus:ring-2 focus:ring-brand-400 text-sm font-semibold"></select></div><div><label class="block text-xs font-bold opacity-70 mb-1">Tanggal</label><input type="date" id="txDate" required class="w-full p-3.5 rounded-xl bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-700 outline-none focus:ring-2 focus:ring-brand-400 text-sm font-semibold"></div></div><div class="grid grid-cols-1 sm:grid-cols-2 gap-4"><div><label class="block text-xs font-bold opacity-70 mb-1">Keterangan</label><input type="text" id="txNote" placeholder="Mis: Beli seblak" required class="w-full p-3.5 rounded-xl bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-700 outline-none focus:ring-2 focus:ring-brand-400 text-sm font-semibold"></div><div><label class="block text-xs font-bold opacity-70 mb-1">Lokasi</label><input type="text" id="txLocation" placeholder="Opsional" class="w-full p-3.5 rounded-xl bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-700 outline-none focus:ring-2 focus:ring-brand-400 text-sm font-semibold"></div></div><div><label class="block text-xs font-bold opacity-70 mb-1">Foto Struk</label><input type="file" accept="image/*" onchange="handleImageInput(this, 'txImgPreview')" class="block w-full text-xs file:mr-4 file:py-2 file:px-4 file:rounded-xl file:border-0 file:text-xs file:font-bold file:bg-brand-500/20 file:text-brand-600 cursor-pointer"><img id="txImgPreview" src="" class="mt-3 rounded-xl max-h-32 object-cover hidden shadow-sm cursor-pointer" onclick="openLightbox(this.src)"></div><button type="submit" class="w-full bg-brand-500 text-white font-bold py-4 rounded-2xl shadow-md hover:bg-brand-600 transition">Simpan Transaksi</button></form></div></div>
+    <!-- Modal Kategori -->
+    <div id="categoriesModal" class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-50 flex items-center justify-center p-4 hidden" onclick="closeModal('categoriesModal')">
+        <div class="bg-white dark:bg-slate-800 w-full max-w-md rounded-3xl p-6 shadow-2xl" onclick="event.stopPropagation()">
+            <div class="flex justify-between items-center mb-5"><h3 class="font-display font-bold text-xl">Kategori</h3><button onclick="closeModal('categoriesModal')" class="text-slate-400 bg-slate-100 dark:bg-slate-700 p-2 rounded-full"><i data-lucide="x" class="w-5 h-5"></i></button></div>
+            <form onsubmit="addCategory(event)" class="flex gap-2 mb-4"><input type="text" id="catEmoji" placeholder="🍟" required class="w-14 p-3 rounded-xl bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-700 text-center text-lg"><input type="text" id="catName" placeholder="Nama Kategori" required class="flex-1 p-3 rounded-xl bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-700 text-sm font-semibold"><button type="submit" class="bg-brand-500 text-white px-4 rounded-xl font-bold"><i data-lucide="plus" class="w-5 h-5"></i></button></form>
+            <div id="categoryList" class="space-y-2 max-h-60 overflow-y-auto hide-scrollbar"></div>
+        </div>
+    </div>
 
-    <div id="categoriesModal" class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-50 flex items-center justify-center p-4 hidden" onclick="closeModal('categoriesModal')"><div class="bg-white dark:bg-slate-800 w-full max-w-md rounded-3xl p-6 shadow-2xl" onclick="event.stopPropagation()"><div class="flex justify-between items-center mb-5"><h3 class="font-display font-bold text-xl">Kategori</h3><button onclick="closeModal('categoriesModal')" class="text-slate-400 bg-slate-100 dark:bg-slate-700 p-2 rounded-full"><i data-lucide="x" class="w-5 h-5"></i></button></div><form onsubmit="addCategory(event)" class="flex gap-2 mb-4"><input type="text" id="catEmoji" placeholder="🍟" required class="w-14 p-3 rounded-xl bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-700 text-center text-lg"><input type="text" id="catName" placeholder="Nama Kategori" required class="flex-1 p-3 rounded-xl bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-700 text-sm font-semibold"><button type="submit" class="bg-brand-500 text-white px-4 rounded-xl font-bold"><i data-lucide="plus" class="w-5 h-5"></i></button></form><div id="categoryList" class="space-y-2 max-h-60 overflow-y-auto hide-scrollbar"></div></div></div>
+    <!-- Modal Jurnal -->
+    <div id="journalModal" class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-50 flex items-center justify-center p-4 hidden" onclick="closeModal('journalModal')">
+        <div class="bg-white dark:bg-slate-800 w-full max-w-lg rounded-3xl p-6 shadow-2xl max-h-[90vh] overflow-y-auto" onclick="event.stopPropagation()">
+            <div class="flex justify-between items-center mb-5"><h3 class="font-display font-bold text-xl">Tulis Jurnal</h3><button onclick="closeModal('journalModal')" class="text-slate-400 bg-slate-100 dark:bg-slate-700 p-2 rounded-full"><i data-lucide="x" class="w-5 h-5"></i></button></div>
+            <form onsubmit="saveJournal(event)" class="space-y-4 text-slate-800 dark:text-slate-200">
+                <div><input type="text" id="jTitle" placeholder="Judul ceritamu..." required class="w-full p-0 py-2 border-b-2 border-slate-200 dark:border-slate-600 focus:border-brand-400 outline-none text-lg font-display font-bold bg-transparent"></div>
+                <div class="grid grid-cols-2 gap-4">
+                    <div><label class="block text-xs font-bold opacity-70 mb-1">Mood</label><select id="jMood" class="w-full p-3 rounded-xl bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-700 text-sm font-semibold outline-none focus:ring-2 focus:ring-brand-400"><option>🥰 Happy</option><option>✨ Excited</option><option>🍕 Kenyang</option><option>😴 Capek</option><option>🥺 Sedih</option></select></div>
+                    <div><label class="block text-xs font-bold opacity-70 mb-1">Tanggal</label><input type="date" id="jDate" required class="w-full p-3 rounded-xl bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-700 text-sm font-semibold outline-none focus:ring-2 focus:ring-brand-400"></div>
+                </div>
+                <div class="grid grid-cols-2 gap-4">
+                    <div><label class="block text-xs font-bold opacity-70 mb-1">Cuaca</label><select id="jWeather" class="w-full p-3 rounded-xl bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-700 text-sm font-semibold outline-none focus:ring-2 focus:ring-brand-400"><option>☀️ Cerah</option><option>🌧️ Hujan</option><option>☁️ Mendung</option><option>🌈 Pelangi</option></select></div>
+                    <div><label class="block text-xs font-bold opacity-70 mb-1">Lokasi</label><input type="text" id="jLocation" placeholder="Mis: Cafe Senja" class="w-full p-3 rounded-xl bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-700 text-sm font-semibold outline-none focus:ring-2 focus:ring-brand-400"></div>
+                </div>
+                <div><label class="block text-xs font-bold opacity-70 mb-1">Tags</label><input type="text" id="jTags" placeholder="Mis: #kencan, #food" class="w-full p-3.5 rounded-xl bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-700 outline-none focus:ring-2 focus:ring-brand-400 text-sm font-semibold"></div>
+                <div><label class="block text-xs font-bold opacity-70 mb-1">Cerita</label><textarea id="jContent" rows="4" placeholder="Hari ini aku..." required class="w-full p-3.5 rounded-xl bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-700 text-sm outline-none focus:ring-2 focus:ring-brand-400 leading-relaxed"></textarea></div>
+                <div><label class="block text-xs font-bold opacity-70 mb-1">Foto Momen</label><input type="file" accept="image/*" onchange="handleImageInput(this, 'jImgPreview')" class="block w-full text-xs file:mr-4 file:py-2 file:px-4 file:rounded-xl file:border-0 file:text-xs file:font-bold file:bg-brand-500/20 file:text-brand-600 cursor-pointer"><img id="jImgPreview" src="" class="mt-3 rounded-xl max-h-40 w-full object-cover hidden border border-slate-200 shadow-sm cursor-pointer" onclick="openLightbox(this.src)"></div>
+                <button type="submit" class="w-full bg-brand-500 text-white font-bold py-4 rounded-2xl shadow-md hover:bg-brand-600 transition">Simpan Jurnal</button>
+            </form>
+        </div>
+    </div>
 
-    <div id="journalModal" class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-50 flex items-center justify-center p-4 hidden" onclick="closeModal('journalModal')"><div class="bg-white dark:bg-slate-800 w-full max-w-lg rounded-3xl p-6 shadow-2xl max-h-[90vh] overflow-y-auto" onclick="event.stopPropagation()"><div class="flex justify-between items-center mb-5"><h3 class="font-display font-bold text-xl">Tulis Jurnal</h3><button onclick="closeModal('journalModal')" class="text-slate-400 bg-slate-100 dark:bg-slate-700 p-2 rounded-full"><i data-lucide="x" class="w-5 h-5"></i></button></div><form onsubmit="saveJournal(event)" class="space-y-4 text-slate-800 dark:text-slate-200"><div><input type="text" id="jTitle" placeholder="Judul ceritamu..." required class="w-full p-0 py-2 border-b-2 border-slate-200 dark:border-slate-600 focus:border-brand-400 outline-none text-lg font-display font-bold bg-transparent"></div><div class="grid grid-cols-2 gap-4"><div><label class="block text-xs font-bold opacity-70 mb-1">Mood</label><select id="jMood" class="w-full p-3 rounded-xl bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-700 text-sm font-semibold outline-none focus:ring-2 focus:ring-brand-400"><option>🥰 Happy</option><option>✨ Excited</option><option>🍕 Kenyang</option><option>😴 Capek</option><option>🥺 Sedih</option></select></div><div><label class="block text-xs font-bold opacity-70 mb-1">Tanggal</label><input type="date" id="jDate" required class="w-full p-3 rounded-xl bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-700 text-sm font-semibold outline-none focus:ring-2 focus:ring-brand-400"></div></div><div class="grid grid-cols-2 gap-4"><div><label class="block text-xs font-bold opacity-70 mb-1">Cuaca</label><select id="jWeather" class="w-full p-3 rounded-xl bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-700 text-sm font-semibold outline-none focus:ring-2 focus:ring-brand-400"><option>☀️ Cerah</option><option>🌧️ Hujan</option><option>☁️ Mendung</option><option>🌈 Pelangi</option></select></div><div><label class="block text-xs font-bold opacity-70 mb-1">Lokasi</label><input type="text" id="jLocation" placeholder="Mis: Cafe Senja" class="w-full p-3 rounded-xl bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-700 text-sm font-semibold outline-none focus:ring-2 focus:ring-brand-400"></div></div><div><label class="block text-xs font-bold opacity-70 mb-1">Tags</label><input type="text" id="jTags" placeholder="Mis: #kencan, #food" class="w-full p-3.5 rounded-xl bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-700 outline-none focus:ring-2 focus:ring-brand-400 text-sm font-semibold"></div><div><label class="block text-xs font-bold opacity-70 mb-1">Cerita</label><textarea id="jContent" rows="4" placeholder="Hari ini aku..." required class="w-full p-3.5 rounded-xl bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-700 text-sm outline-none focus:ring-2 focus:ring-brand-400 leading-relaxed"></textarea></div><div><label class="block text-xs font-bold opacity-70 mb-1">Foto Momen</label><input type="file" accept="image/*" onchange="handleImageInput(this, 'jImgPreview')" class="block w-full text-xs file:mr-4 file:py-2 file:px-4 file:rounded-xl file:border-0 file:text-xs file:font-bold file:bg-brand-500/20 file:text-brand-600 cursor-pointer"><img id="jImgPreview" src="" class="mt-3 rounded-xl max-h-40 w-full object-cover hidden border border-slate-200 shadow-sm cursor-pointer" onclick="openLightbox(this.src)"></div><button type="submit" class="w-full bg-brand-500 text-white font-bold py-4 rounded-2xl shadow-md hover:bg-brand-600 transition">Simpan Jurnal</button></form></div></div>
+    <!-- Lightbox Modal -->
+    <div id="lightboxModal" class="fixed inset-0 bg-black/90 backdrop-blur-sm z-[100] flex flex-col p-4 hidden overflow-y-auto" onclick="closeModal('lightboxModal')">
+        <div class="min-h-full flex items-center justify-center py-10 relative">
+            <button class="fixed top-6 right-6 text-white/70 hover:text-white bg-white/10 rounded-full p-2 z-50 transition" onclick="closeModal('lightboxModal')"><i data-lucide="x" class="w-6 h-6"></i></button>
+            <img id="lightboxImg" src="" class="max-w-full rounded-lg shadow-2xl object-contain cursor-zoom-out" onclick="event.stopPropagation()">
+        </div>
+    </div>
 
-    <div id="lightboxModal" class="fixed inset-0 bg-black/90 backdrop-blur-sm z-[100] flex flex-col p-4 hidden overflow-y-auto" onclick="closeModal('lightboxModal')"><div class="min-h-full flex items-center justify-center py-10 relative"><button class="fixed top-6 right-6 text-white/70 hover:text-white bg-white/10 rounded-full p-2 z-50 transition" onclick="closeModal('lightboxModal')"><i data-lucide="x" class="w-6 h-6"></i></button><img id="lightboxImg" src="" class="max-w-full rounded-lg shadow-2xl object-contain cursor-zoom-out" onclick="event.stopPropagation()"></div></div>
+    <!-- Alert Modal -->
+    <div id="alertModal" class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-[60] flex items-center justify-center p-4 hidden" onclick="closeModal('alertModal')">
+        <div class="bg-white dark:bg-slate-800 rounded-3xl p-6 max-w-xs w-full text-center shadow-2xl" onclick="event.stopPropagation()">
+            <div id="alertIcon" class="text-4xl mb-3">💖</div>
+            <h4 id="alertTitle" class="font-display font-bold text-lg mb-1">Judul</h4>
+            <p id="alertMsg" class="text-sm opacity-70 mb-5 whitespace-pre-line">Pesan</p>
+            <button onclick="closeModal('alertModal')" class="w-full bg-brand-500 text-white font-bold py-2.5 rounded-xl text-sm">Oke</button>
+        </div>
+    </div>
 
-    <div id="alertModal" class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-[60] flex items-center justify-center p-4 hidden" onclick="closeModal('alertModal')"><div class="bg-white dark:bg-slate-800 rounded-3xl p-6 max-w-xs w-full text-center shadow-2xl" onclick="event.stopPropagation()"><div id="alertIcon" class="text-4xl mb-3">💖</div><h4 id="alertTitle" class="font-display font-bold text-lg mb-1">Judul</h4><p id="alertMsg" class="text-sm opacity-70 mb-5">Pesan</p><button onclick="closeModal('alertModal')" class="w-full bg-brand-500 text-white font-bold py-2.5 rounded-xl text-sm">Oke</button></div></div>
-
-    <!-- LOGIC -->
+    <!-- LOGIC SYSTEM -->
     <script>
         lucide.createIcons();
         const chartColors = ['#f43f5e', '#a78bfa', '#34d399', '#fb923c', '#38bdf8', '#fb7185', '#c084fc', '#4ade80', '#facc15', '#60a5fa'];
         const defaultCategories = [{id:'c1',name:'Makanan & Jajan',emoji:'🍜'},{id:'c2',name:'Skincare',emoji:'💄'},{id:'c3',name:'Belanja',emoji:'🛍️'},{id:'c4',name:'Transport',emoji:'🛵'},{id:'c5',name:'Gaji/Pemasukan',emoji:'💸'}];
+        const defaultAccounts = [
+            {id:'a1', name:'SeaBank', icon:'🏦'},
+            {id:'a2', name:'GoPay', icon:'🟢'},
+            {id:'a3', name:'OVO', icon:'🟣'},
+            {id:'a4', name:'ShopeePay', icon:'🟠'},
+            {id:'a5', name:'Tunai / Cash', icon:'💵'}
+        ];
 
-        // Safe Load LocalStorage
         let settings = localStorage.getItem('sandrApp_settings') ? JSON.parse(localStorage.getItem('sandrApp_settings')) : { appName: "Sandra's App", userName: "Sandra", avatar: "https://placehold.co/150x150/fda4af/ffffff?text=S", quote: "Semoga harimu selalu ceria!", theme: "pink", isFirstLoad: true, spotifyLink: "https://open.spotify.com/playlist/37i9dQZF1DX5IDTimETr5h" };
         let categories = localStorage.getItem('sandrApp_categories') ? JSON.parse(localStorage.getItem('sandrApp_categories')) : defaultCategories;
+        let accounts = localStorage.getItem('sandrApp_accounts') ? JSON.parse(localStorage.getItem('sandrApp_accounts')) : defaultAccounts;
         let transactions = localStorage.getItem('sandrApp_transactions') ? JSON.parse(localStorage.getItem('sandrApp_transactions')) : [];
         let journals = localStorage.getItem('sandrApp_journals') ? JSON.parse(localStorage.getItem('sandrApp_journals')) : [];
-        
-        // NEW: Load Paylater Data
         let paylaters = localStorage.getItem('sandrApp_paylaters') ? JSON.parse(localStorage.getItem('sandrApp_paylaters')) : [];
         
         let myChart = null;
+
+        // Auto-migration for old transactions without account property
+        transactions = transactions.map(t => ({ ...t, account: t.account || 'SeaBank' }));
 
         window.onload = () => {
             applySettings();
@@ -356,12 +500,13 @@
             document.getElementById('plDate').value = today;
             
             renderCategories();
+            renderAccountDropdowns();
+            renderAccountsGrid();
             renderTransactions();
             renderJournals();
             renderPaylaters();
             spawnHearts();
 
-            // Pengecekan Paylater Reminder Delay dikit biar gak kaget
             setTimeout(() => checkPaylaterReminders(), 1500);
 
             if(settings.isFirstLoad) {
@@ -374,22 +519,100 @@
             }
         };
 
-        // ====== PAYLATER LOGIC ======
+        // ====== ACCOUNT MANAGEMENT ======
+        function renderAccountDropdowns() {
+            const txAcc = document.getElementById('txAccount');
+            const filAcc = document.getElementById('filterAcc');
+            const accManageList = document.getElementById('accountManageList');
+            
+            txAcc.innerHTML = '';
+            filAcc.innerHTML = '<option value="ALL">Semua Akun</option>';
+            accManageList.innerHTML = '';
+
+            accounts.forEach(a => {
+                txAcc.innerHTML += `<option value="${a.name}">${a.icon} ${a.name}</option>`;
+                filAcc.innerHTML += `<option value="${a.name}">${a.icon} ${a.name}</option>`;
+                accManageList.innerHTML += `
+                    <div class="flex justify-between p-3 bg-slate-50 dark:bg-slate-700 rounded-xl border border-slate-100">
+                        <span class="font-semibold text-sm">${a.icon} ${a.name}</span>
+                        <button onclick="deleteAccount('${a.id}')" class="text-rose-400"><i data-lucide="trash-2" class="w-4 h-4"></i></button>
+                    </div>
+                `;
+            });
+            lucide.createIcons();
+        }
+
+        function addAccount(e) {
+            e.preventDefault();
+            const ic = document.getElementById('accIcon').value;
+            const nm = document.getElementById('accName').value;
+            if(!ic || !nm) return;
+            accounts.push({ id: 'acc_'+Date.now(), icon: ic, name: nm });
+            localStorage.setItem('sandrApp_accounts', JSON.stringify(accounts));
+            e.target.reset();
+            renderAccountDropdowns();
+            renderAccountsGrid();
+            renderTransactions();
+        }
+
+        function deleteAccount(id) {
+            if(accounts.length <= 1) {
+                customAlert("Gagal", "Minimal harus ada 1 akun simpanan aktif!", "⚠️");
+                return;
+            }
+            accounts = accounts.filter(a => a.id !== id);
+            localStorage.setItem('sandrApp_accounts', JSON.stringify(accounts));
+            renderAccountDropdowns();
+            renderAccountsGrid();
+            renderTransactions();
+        }
+
+        function renderAccountsGrid() {
+            const grid = document.getElementById('accountsGrid');
+            grid.innerHTML = '';
+
+            // Calculate balance per account
+            accounts.forEach(acc => {
+                let accBal = 0;
+                transactions.forEach(t => {
+                    if (t.account === acc.name) {
+                        if (t.type === 'income') accBal += t.amount;
+                        else accBal -= t.amount;
+                    }
+                });
+
+                grid.innerHTML += `
+                    <div onclick="filterByAccountOnly('${acc.name}')" class="cursor-pointer bg-black/5 dark:bg-slate-800/60 p-3 rounded-2xl border border-white/20 hover:border-brand-400 transition shadow-sm">
+                        <div class="flex items-center gap-1.5 mb-1">
+                            <span class="text-base">${acc.icon}</span>
+                            <span class="text-xs font-bold truncate">${acc.name}</span>
+                        </div>
+                        <p class="text-xs font-display font-bold text-brand-600 dark:text-brand-400 truncate">${formatRp(accBal)}</p>
+                    </div>
+                `;
+            });
+        }
+
+        function filterByAccountOnly(accName) {
+            document.getElementById('filterAcc').value = accName;
+            renderTransactions();
+        }
+
+        function resetFilters() {
+            document.getElementById('filterAcc').value = 'ALL';
+            document.getElementById('filterCat').value = 'ALL';
+            document.getElementById('filterDate').value = '';
+            renderTransactions();
+        }
+
+        // ====== PAYLATER SYSTEM ======
         function savePaylater(e) {
             e.preventDefault();
             const rawAmount = document.getElementById('plAmount').value.replace(/\./g, '');
-            const pl = {
-                id: 'pl_'+Date.now(),
-                name: document.getElementById('plName').value,
-                amount: parseFloat(rawAmount) || 0,
-                dueDate: document.getElementById('plDate').value
-            };
+            const pl = { id: 'pl_'+Date.now(), name: document.getElementById('plName').value, amount: parseFloat(rawAmount) || 0, dueDate: document.getElementById('plDate').value };
             paylaters.unshift(pl);
             localStorage.setItem('sandrApp_paylaters', JSON.stringify(paylaters));
-            e.target.reset();
-            closeModal('paylaterModal');
-            renderPaylaters();
-            customAlert("Tercatat!", "Tagihan Paylater berhasil disimpan.", "💳");
+            e.target.reset(); closeModal('paylaterModal'); renderPaylaters(); customAlert("Tercatat!", "Tagihan Paylater berhasil disimpan.", "💳");
         }
 
         function deletePaylater(id) {
@@ -411,15 +634,13 @@
 
             paylaters.forEach(p => {
                 totalPl += p.amount;
-                // Hitung sisa hari buat indikator warna
                 let due = new Date(p.dueDate);
-                let today = new Date();
-                today.setHours(0,0,0,0);
+                let today = new Date(); today.setHours(0,0,0,0);
                 let diffDays = Math.ceil((due - today) / (1000 * 60 * 60 * 24));
                 
                 let badgeColor = 'bg-slate-500/10 text-slate-500';
-                if(diffDays < 0) badgeColor = 'bg-rose-500 text-white animate-pulse'; // Telat
-                else if(diffDays <= 3) badgeColor = 'bg-orange-500 text-white'; // Warning
+                if(diffDays < 0) badgeColor = 'bg-rose-500 text-white animate-pulse';
+                else if(diffDays <= 3) badgeColor = 'bg-orange-500 text-white';
 
                 let dayText = diffDays < 0 ? 'TELAT!' : (diffDays === 0 ? 'Hari ini' : `${diffDays} hari lagi`);
 
@@ -442,26 +663,198 @@
 
         function checkPaylaterReminders() {
             if(paylaters.length === 0) return;
-            let today = new Date();
-            today.setHours(0,0,0,0);
+            let today = new Date(); today.setHours(0,0,0,0);
             let alerts = [];
 
             paylaters.forEach(p => {
                 let due = new Date(p.dueDate);
                 let diffDays = Math.ceil((due - today) / (1000 * 60 * 60 * 24));
-                if (diffDays < 0) {
-                    alerts.push(`🚨 ${p.name} udah LEWAT JATUH TEMPO sayang! (Rp ${formatRp(p.amount)})`);
-                } else if (diffDays <= 3) {
-                    alerts.push(`⚠️ ${p.name} jatuh tempo ${diffDays === 0 ? 'HARI INI' : diffDays + ' hari lagi'}! (Rp ${formatRp(p.amount)})`);
+                if (diffDays < 0) alerts.push(`🚨 ${p.name} LEWAT JATUH TEMPO! (Rp ${formatRp(p.amount)})`);
+                else if (diffDays <= 3) alerts.push(`⚠️ ${p.name} jatuh tempo ${diffDays === 0 ? 'HARI INI' : diffDays + ' hari lagi'}! (Rp ${formatRp(p.amount)})`);
+            });
+
+            if(alerts.length > 0) customAlert("Ayang, Ingat Paylater! 💳", alerts.join('\n\n'), "💸");
+        }
+
+        // ====== TRANSACTIONS & FILTERING ======
+        function saveTransaction(e) {
+            e.preventDefault();
+            const img = document.getElementById('txImgPreview');
+            const rawAmount = document.getElementById('txAmount').value.replace(/\./g, '');
+            const tx = {
+                id: 'tx_'+Date.now(),
+                type: document.getElementById('txType').value,
+                amount: parseFloat(rawAmount) || 0,
+                account: document.getElementById('txAccount').value,
+                category: document.getElementById('txCategory').value,
+                date: document.getElementById('txDate').value,
+                note: document.getElementById('txNote').value,
+                location: document.getElementById('txLocation').value,
+                photo: img.classList.contains('hidden') ? null : img.src
+            };
+            transactions.unshift(tx);
+            localStorage.setItem('sandrApp_transactions', JSON.stringify(transactions));
+            e.target.reset(); img.classList.add('hidden'); img.src=''; closeModal('transactionModal');
+            renderAccountsGrid(); renderTransactions();
+            customAlert("Berhasil!", "Catatan uang berhasil disimpan.", "💰");
+        }
+
+        function deleteTransaction(id) {
+            transactions = transactions.filter(t => t.id !== id);
+            localStorage.setItem('sandrApp_transactions', JSON.stringify(transactions));
+            renderAccountsGrid(); renderTransactions();
+        }
+
+        function renderTransactions() {
+            const list = document.getElementById('transactionList');
+            const fAcc = document.getElementById('filterAcc').value;
+            const fCat = document.getElementById('filterCat').value;
+            const fDate = document.getElementById('filterDate').value;
+
+            list.innerHTML = '';
+
+            let currentMonthStr = new Date().toISOString().slice(0,7);
+            let totalIncomeAll = 0, totalExpenseAll = 0;
+
+            // Global Totals Calculation
+            transactions.forEach(t => {
+                if (t.type === 'income') totalIncomeAll += t.amount;
+                else totalExpenseAll += t.amount;
+            });
+
+            // Filter logic
+            let filtered = transactions.filter(t => {
+                let matchAcc = fAcc === 'ALL' || t.account === fAcc;
+                let matchCat = fCat === 'ALL' || t.category === fCat;
+                let matchDate = !fDate || t.date === fDate;
+                return matchAcc && matchCat && matchDate;
+            });
+
+            // Calculate active filter total
+            let filteredExpenseTotal = 0;
+            let filteredIncomeTotal = 0;
+            filtered.forEach(t => {
+                if (t.type === 'expense') filteredExpenseTotal += t.amount;
+                else filteredIncomeTotal += t.amount;
+            });
+
+            // Filter Summary Banner Update
+            const banner = document.getElementById('filterSummaryBanner');
+            if (fAcc !== 'ALL' || fCat !== 'ALL' || fDate) {
+                banner.classList.remove('hidden');
+                document.getElementById('filterSummaryText').innerText = `Total Filter: ${filtered.length} Transaksi`;
+                document.getElementById('filterSummaryAmount').innerText = `- ${formatRp(filteredExpenseTotal)}`;
+            } else {
+                banner.classList.add('hidden');
+            }
+
+            if(filtered.length === 0) {
+                list.innerHTML = `<div class="text-center opacity-50 text-sm mt-8">Nggak ada transaksi yang cocok.</div>`;
+            }
+
+            filtered.forEach(t => {
+                const c = categories.find(x => x.name === t.category) || {emoji:'📝'};
+                const accObj = accounts.find(a => a.name === t.account) || {icon:'🏦'};
+                const isE = t.type === 'expense';
+                let photoBtn = t.photo ? `<button onclick="openLightbox('${t.photo}', '${t.note}')" class="mt-2 text-[10px] bg-brand-500/10 text-brand-600 px-2 py-1 rounded border border-brand-500/20 flex items-center gap-1 font-bold"><i data-lucide="image" class="w-3 h-3"></i> Foto Struk</button>` : '';
+                let locBadge = t.location ? `<span class="text-[10px] bg-black/10 px-1.5 rounded font-semibold flex items-center gap-1"><i data-lucide="map-pin" class="w-3 h-3"></i> ${t.location}</span>` : '';
+
+                list.innerHTML += `
+                    <div class="bg-black/5 p-4 rounded-2xl flex justify-between items-start">
+                        <div class="flex gap-3">
+                            <div class="w-10 h-10 bg-white dark:bg-slate-700 rounded-xl flex items-center justify-center text-lg shadow-sm">${c.emoji}</div>
+                            <div>
+                                <h4 class="font-bold text-sm">${t.note}</h4>
+                                <div class="flex flex-wrap items-center gap-1.5 mt-1">
+                                    <span class="text-[10px] opacity-60">${t.date}</span>
+                                    <span class="text-[10px] bg-brand-500/10 text-brand-600 px-1.5 py-0.5 rounded font-bold">${accObj.icon} ${t.account}</span>
+                                    <span class="text-[10px] bg-black/10 px-1.5 py-0.5 rounded font-semibold">${t.category}</span>
+                                    ${locBadge}
+                                </div>
+                                ${photoBtn}
+                            </div>
+                        </div>
+                        <div class="text-right">
+                            <span class="font-bold text-sm ${isE ? 'text-rose-500' : 'text-emerald-500'}">${isE ? '-' : '+'} ${formatRp(t.amount)}</span>
+                            <button onclick="deleteTransaction('${t.id}')" class="block ml-auto mt-2 opacity-30 hover:opacity-100 text-rose-500"><i data-lucide="trash" class="w-3.5 h-3.5"></i></button>
+                        </div>
+                    </div>
+                `;
+            });
+
+            // Update Total Dashboard (Total Sisa Saldo Seluruh Akun)
+            document.getElementById('totalBalance').innerText = formatRp(totalIncomeAll - totalExpenseAll);
+
+            // Calculate Month-to-date Income/Expense
+            let monthIncome = 0, monthExpense = 0;
+            transactions.forEach(t => {
+                if (t.date.startsWith(currentMonthStr)) {
+                    if (t.type === 'income') monthIncome += t.amount;
+                    else monthExpense += t.amount;
                 }
             });
 
-            if(alerts.length > 0) {
-                customAlert("Ayang, Ingat Paylater! 💳", alerts.join('\n\n'), "💸");
-            }
-        }
-        // ====== END PAYLATER ======
+            document.getElementById('totalIncome').innerText = formatRp(monthIncome);
+            document.getElementById('totalExpense').innerText = formatRp(monthExpense);
 
+            lucide.createIcons();
+            updateChart(filtered);
+        }
+
+        function updateChart(txList) {
+            const ctx = document.getElementById('expenseChart');
+            const leg = document.getElementById('chartLegend');
+            if(!ctx) return;
+
+            let exp = txList.filter(t => t.type === 'expense');
+            let totals = {};
+            let gt = 0;
+
+            exp.forEach(t => {
+                totals[t.category] = (totals[t.category] || 0) + t.amount;
+                gt += t.amount;
+            });
+
+            let labels = [], data = [], bgColors = [];
+            leg.innerHTML = '';
+            let idx = 0;
+
+            for (let cat in totals) {
+                const val = totals[cat];
+                const pct = gt > 0 ? Math.round((val/gt)*100) : 0;
+                const c = categories.find(x => x.name === cat) || {emoji:'🏷️'};
+                const color = chartColors[idx % chartColors.length];
+                labels.push(cat); data.push(val); bgColors.push(color);
+
+                leg.innerHTML += `
+                    <div class="flex items-center justify-between text-xs mb-1 p-2 rounded-lg bg-black/5 cursor-pointer" onclick="document.getElementById('filterCat').value='${cat}'; renderTransactions();">
+                        <div class="flex items-center gap-2">
+                            <span class="w-2.5 h-2.5 rounded-full" style="background-color:${color}"></span>
+                            <span class="font-semibold">${c.emoji} ${cat}</span>
+                        </div>
+                        <div class="font-bold">${pct}%</div>
+                    </div>
+                `;
+                idx++;
+            }
+
+            if(data.length === 0) {
+                labels.push("Kosong"); data.push(1); bgColors.push(settings.theme==='dark'?'#334155':'#e2e8f0');
+                leg.innerHTML = '<div class="text-xs text-center opacity-50 py-2">Belum ada data pengeluaran.</div>';
+            }
+
+            if(myChart) myChart.destroy();
+            myChart = new Chart(ctx, {
+                type: 'doughnut',
+                data: { labels, datasets: [{ data, backgroundColor: bgColors, borderWidth: 0 }] },
+                options: {
+                    responsive: true, maintainAspectRatio: false, cutout: '70%',
+                    plugins: { legend: { display: false }, tooltip: { callbacks: { label: (ctx) => ' ' + formatRp(ctx.raw) } } }
+                }
+            });
+        }
+
+        // ====== SPOTIFY & UI UTILS ======
         function getSpotifyEmbedUrl(url) {
             if (!url) return "";
             try { let u = new URL(url); if (u.hostname !== 'open.spotify.com') return ""; return `https://open.spotify.com/embed${u.pathname}?utm_source=generator&theme=0`; } catch (e) { return ""; }
@@ -517,34 +910,99 @@
 
             document.getElementById('setAppName').value = settings.appName; document.getElementById('setUserName').value = settings.userName;
             document.getElementById('setQuote').value = settings.quote; document.getElementById('setSpotify').value = settings.spotifyLink || "";
-            updateSpotifyIframe(); if(transactions.length > 0) updateChart();
+            updateSpotifyIframe();
         }
+
         function changeTheme(color) { settings.theme = color; applySettings(); }
         function handleSettingsAvatar(input) { if (input.files && input.files[0]) { const r = new FileReader(); r.onload = e => { settings.avatar = e.target.result; applySettings(); }; r.readAsDataURL(input.files[0]); } }
         function savePersonalization() { settings.appName = document.getElementById('setAppName').value || "App"; settings.userName = document.getElementById('setUserName').value || "User"; settings.quote = document.getElementById('setQuote').value; settings.spotifyLink = document.getElementById('setSpotify').value; localStorage.setItem('sandrApp_settings', JSON.stringify(settings)); applySettings(); customAlert("Tersimpan!", "Tema, lagu, dan profil udah diganti.", "✨"); }
 
-        function setTxType(type) { document.getElementById('txType').value = type; const bE = document.getElementById('btnExpense'); const bI = document.getElementById('btnIncome'); if (type === 'expense') { bE.className = "py-2.5 text-sm font-bold rounded-xl bg-white dark:bg-slate-600 shadow-sm text-rose-500 transition"; bI.className = "py-2.5 text-sm font-bold rounded-xl text-slate-500 dark:text-slate-300 transition"; } else { bI.className = "py-2.5 text-sm font-bold rounded-xl bg-white dark:bg-slate-600 shadow-sm text-emerald-500 transition"; bE.className = "py-2.5 text-sm font-bold rounded-xl text-slate-500 dark:text-slate-300 transition"; } }
-        function renderCategories() { const sel = document.getElementById('txCategory'); const fil = document.getElementById('filterCat'); const list = document.getElementById('categoryList'); sel.innerHTML = ''; fil.innerHTML = '<option value="ALL">Semua</option>'; list.innerHTML = ''; categories.forEach(c => { sel.innerHTML += `<option value="${c.name}">${c.emoji} ${c.name}</option>`; fil.innerHTML += `<option value="${c.name}">${c.emoji} ${c.name}</option>`; list.innerHTML += `<div class="flex justify-between p-3 bg-slate-50 dark:bg-slate-700 rounded-xl border border-slate-100"><span class="font-semibold text-sm">${c.emoji} ${c.name}</span><button onclick="deleteCategory('${c.id}')" class="text-rose-400"><i data-lucide="trash-2" class="w-4 h-4"></i></button></div>`; }); lucide.createIcons(); }
+        function setTxType(type) {
+            document.getElementById('txType').value = type;
+            const bE = document.getElementById('btnExpense'); const bI = document.getElementById('btnIncome');
+            if (type === 'expense') {
+                bE.className = "py-2.5 text-sm font-bold rounded-xl bg-white dark:bg-slate-600 shadow-sm text-rose-500 transition";
+                bI.className = "py-2.5 text-sm font-bold rounded-xl text-slate-500 dark:text-slate-300 transition";
+            } else {
+                bI.className = "py-2.5 text-sm font-bold rounded-xl bg-white dark:bg-slate-600 shadow-sm text-emerald-500 transition";
+                bE.className = "py-2.5 text-sm font-bold rounded-xl text-slate-500 dark:text-slate-300 transition";
+            }
+        }
+
+        function renderCategories() {
+            const sel = document.getElementById('txCategory'); const fil = document.getElementById('filterCat'); const list = document.getElementById('categoryList');
+            sel.innerHTML = ''; fil.innerHTML = '<option value="ALL">Semua Kategori</option>'; list.innerHTML = '';
+            categories.forEach(c => {
+                sel.innerHTML += `<option value="${c.name}">${c.emoji} ${c.name}</option>`;
+                fil.innerHTML += `<option value="${c.name}">${c.emoji} ${c.name}</option>`;
+                list.innerHTML += `<div class="flex justify-between p-3 bg-slate-50 dark:bg-slate-700 rounded-xl border border-slate-100"><span class="font-semibold text-sm">${c.emoji} ${c.name}</span><button onclick="deleteCategory('${c.id}')" class="text-rose-400"><i data-lucide="trash-2" class="w-4 h-4"></i></button></div>`;
+            });
+            lucide.createIcons();
+        }
+
         function addCategory(e) { e.preventDefault(); const em = document.getElementById('catEmoji').value, nm = document.getElementById('catName').value; if(!em || !nm) return; categories.push({ id: 'c_'+Date.now(), emoji:em, name:nm }); localStorage.setItem('sandrApp_categories', JSON.stringify(categories)); e.target.reset(); renderCategories(); }
         function deleteCategory(id) { categories = categories.filter(c => c.id !== id); localStorage.setItem('sandrApp_categories', JSON.stringify(categories)); renderCategories(); }
-        
-        function saveTransaction(e) { e.preventDefault(); const img = document.getElementById('txImgPreview'); const rawAmount = document.getElementById('txAmount').value.replace(/\./g, ''); const tx = { id: 'tx_'+Date.now(), type: document.getElementById('txType').value, amount: parseFloat(rawAmount) || 0, category: document.getElementById('txCategory').value, date: document.getElementById('txDate').value, note: document.getElementById('txNote').value, location: document.getElementById('txLocation').value, photo: img.classList.contains('hidden') ? null : img.src }; transactions.unshift(tx); localStorage.setItem('sandrApp_transactions', JSON.stringify(transactions)); e.target.reset(); img.classList.add('hidden'); img.src=''; closeModal('transactionModal'); renderTransactions(); customAlert("Berhasil!", "Uang tercatat.", "💰"); }
-        function deleteTransaction(id) { transactions = transactions.filter(t => t.id !== id); localStorage.setItem('sandrApp_transactions', JSON.stringify(transactions)); renderTransactions(); }
-        
-        function renderTransactions() { const list = document.getElementById('transactionList'); const filter = document.getElementById('filterCat').value; list.innerHTML = ''; let filtered = filter !== 'ALL' ? transactions.filter(t => t.category === filter) : transactions; let tIn = 0, tEx = 0; if(filtered.length === 0) list.innerHTML = `<div class="text-center opacity-50 text-sm mt-5">Kosong.</div>`; filtered.forEach(t => { if(t.type === 'income') tIn += t.amount; else tEx += t.amount; const c = categories.find(x => x.name === t.category) || {emoji:'📝'}; const isE = t.type === 'expense'; let photoBtn = t.photo ? `<button onclick="openLightbox('${t.photo}', '${t.note}')" class="mt-2 text-[10px] bg-brand-500/10 text-brand-600 px-2 py-1 rounded border border-brand-500/20 flex items-center gap-1 font-bold"><i data-lucide="image" class="w-3 h-3"></i> Foto</button>` : ''; let locBadge = t.location ? `<span class="text-[10px] bg-black/10 px-1.5 rounded font-semibold flex items-center gap-1"><i data-lucide="map-pin" class="w-3 h-3"></i> ${t.location}</span>` : ''; list.innerHTML += `<div class="bg-black/5 p-4 rounded-2xl flex justify-between items-start"><div class="flex gap-3"><div class="w-10 h-10 bg-white dark:bg-slate-700 rounded-xl flex items-center justify-center text-lg">${c.emoji}</div><div><h4 class="font-bold text-sm">${t.note}</h4><div class="flex flex-wrap items-center gap-2 mt-1"><span class="text-[10px] opacity-60">${t.date}</span><span class="text-[10px] bg-black/10 px-1.5 rounded font-semibold">${t.category}</span>${locBadge}</div>${photoBtn}</div></div><div class="text-right"><span class="font-bold text-sm ${isE ? 'text-rose-500' : 'text-emerald-500'}">${isE ? '-' : '+'} ${formatRp(t.amount)}</span><button onclick="deleteTransaction('${t.id}')" class="block ml-auto mt-2 opacity-30 hover:opacity-100 text-rose-500"><i data-lucide="trash" class="w-3.5 h-3.5"></i></button></div></div>`; }); let summaryHTML = ''; if(filter !== 'ALL') { if(tEx > 0) summaryHTML += `<div class="text-xs font-bold text-rose-500 bg-rose-500/10 px-3 py-2.5 rounded-xl mb-3 flex justify-between"><span>Total Keluar (${filter})</span><span>${formatRp(tEx)}</span></div>`; if(tIn > 0) summaryHTML += `<div class="text-xs font-bold text-emerald-500 bg-emerald-500/10 px-3 py-2.5 rounded-xl mb-3 flex justify-between"><span>Total Masuk (${filter})</span><span>${formatRp(tIn)}</span></div>`; list.innerHTML = summaryHTML + list.innerHTML; } if(filter === 'ALL') { document.getElementById('totalBalance').innerText = formatRp(tIn - tEx); document.getElementById('totalIncome').innerText = formatRp(tIn); document.getElementById('totalExpense').innerText = formatRp(tEx); } lucide.createIcons(); updateChart(); }
-        
-        function updateChart() { const ctx = document.getElementById('expenseChart'); const leg = document.getElementById('chartLegend'); if(!ctx) return; let exp = transactions.filter(t => t.type === 'expense'); let totals = {}; let gt = 0; exp.forEach(t => { totals[t.category] = (totals[t.category] || 0) + t.amount; gt += t.amount; }); let labels = [], data = [], bgColors = []; leg.innerHTML = ''; let idx = 0; for (let cat in totals) { const val = totals[cat]; const pct = gt > 0 ? Math.round((val/gt)*100) : 0; const c = categories.find(x => x.name === cat) || {emoji:'🏷️'}; const color = chartColors[idx % chartColors.length]; labels.push(cat); data.push(val); bgColors.push(color); leg.innerHTML += `<div class="flex items-center justify-between text-xs mb-1 p-2 rounded-lg bg-black/5 cursor-pointer" onclick="document.getElementById('filterCat').value='${cat}'; renderTransactions();"><div class="flex items-center gap-2"><span class="w-2.5 h-2.5 rounded-full" style="background-color:${color}"></span><span class="font-semibold">${c.emoji} ${cat}</span></div><div class="font-bold">${pct}%</div></div>`; idx++; } if(data.length === 0) { labels.push("Kosong"); data.push(1); bgColors.push(settings.theme==='dark'?'#334155':'#e2e8f0'); leg.innerHTML = '<div class="text-xs text-center opacity-50 py-2">Belum ada pengeluaran.</div>'; } if(myChart) myChart.destroy(); myChart = new Chart(ctx, { type: 'doughnut', data: { labels, datasets: [{ data, backgroundColor: bgColors, borderWidth: 0 }] }, options: { responsive: true, maintainAspectRatio: false, cutout: '70%', plugins: { legend: { display: false }, tooltip: { callbacks: { label: (ctx) => ' ' + formatRp(ctx.raw) } } } } }); }
-        
-        function saveJournal(e) { e.preventDefault(); const img = document.getElementById('jImgPreview'); const j = { id: 'j_'+Date.now(), title: document.getElementById('jTitle').value, mood: document.getElementById('jMood').value, weather: document.getElementById('jWeather').value, date: document.getElementById('jDate').value, location: document.getElementById('jLocation').value, tags: document.getElementById('jTags').value, content: document.getElementById('jContent').value, photo: img.classList.contains('hidden') ? null : img.src }; journals.unshift(j); localStorage.setItem('sandrApp_journals', JSON.stringify(journals)); e.target.reset(); img.classList.add('hidden'); img.src=''; closeModal('journalModal'); renderJournals(); customAlert("Tersimpan!", "Ceritamu udah diabadikan.", "📖"); }
+
+        // ====== JOURNAL SYSTEM ======
+        function saveJournal(e) {
+            e.preventDefault(); const img = document.getElementById('jImgPreview');
+            const j = { id: 'j_'+Date.now(), title: document.getElementById('jTitle').value, mood: document.getElementById('jMood').value, weather: document.getElementById('jWeather').value, date: document.getElementById('jDate').value, location: document.getElementById('jLocation').value, tags: document.getElementById('jTags').value, content: document.getElementById('jContent').value, photo: img.classList.contains('hidden') ? null : img.src };
+            journals.unshift(j); localStorage.setItem('sandrApp_journals', JSON.stringify(journals)); e.target.reset(); img.classList.add('hidden'); img.src=''; closeModal('journalModal'); renderJournals(); customAlert("Tersimpan!", "Ceritamu udah diabadikan.", "📖");
+        }
+
         function deleteJournal(id) { journals = journals.filter(j => j.id !== id); localStorage.setItem('sandrApp_journals', JSON.stringify(journals)); renderJournals(); }
-        function renderJournals() { const grid = document.getElementById('journalGrid'); grid.innerHTML = ''; if(journals.length === 0) { grid.innerHTML = `<div class="col-span-full text-center opacity-50 py-10">Belum ada jurnal.</div>`; return; } journals.forEach(j => { let imgHTML = j.photo ? `<div class="h-40 w-full rounded-xl overflow-hidden mt-3 cursor-pointer" onclick="openLightbox('${j.photo}')"><img src="${j.photo}" class="w-full h-full object-cover"></div>` : ''; let tagsHTML = ''; if(j.tags) { j.tags.split(',').forEach(t => { if(t.trim()) tagsHTML += `<span class="text-[10px] font-bold text-brand-600 bg-brand-500/10 px-1.5 py-0.5 rounded mr-1">${t.trim().startsWith('#') ? t.trim() : '#'+t.trim()}</span>`; }); } grid.innerHTML += `<div class="glass-panel rounded-3xl p-5 shadow-sm border border-white/20 flex flex-col"><div class="flex justify-between items-start mb-2"><span class="text-xs font-bold bg-black/10 px-2 py-1 rounded-lg">${j.mood || ''}</span><span class="text-[10px] opacity-60 ml-auto mr-3 flex items-center">${j.date}</span><button onclick="deleteJournal('${j.id}')" class="opacity-40 hover:opacity-100 text-rose-500"><i data-lucide="trash" class="w-4 h-4"></i></button></div><h4 class="font-display font-bold text-lg leading-tight">${j.title}</h4><div class="flex items-center gap-3 text-[10px] font-bold opacity-60 mb-2 mt-1"><span>${j.weather || ''}</span>${j.location ? `<span><i data-lucide="map-pin" class="w-3 h-3 inline"></i> ${j.location}</span>` : ''}</div><p class="text-sm opacity-80 flex-1 mt-1 leading-relaxed">${j.content}</p><div class="mt-2 flex flex-wrap gap-1">${tagsHTML}</div>${imgHTML}</div>`; }); lucide.createIcons(); }
-        
+
+        function renderJournals() {
+            const grid = document.getElementById('journalGrid'); grid.innerHTML = '';
+            if(journals.length === 0) { grid.innerHTML = `<div class="col-span-full text-center opacity-50 py-10">Belum ada jurnal.</div>`; return; }
+            journals.forEach(j => {
+                let imgHTML = j.photo ? `<div class="h-40 w-full rounded-xl overflow-hidden mt-3 cursor-pointer" onclick="openLightbox('${j.photo}')"><img src="${j.photo}" class="w-full h-full object-cover"></div>` : '';
+                let tagsHTML = ''; if(j.tags) { j.tags.split(',').forEach(t => { if(t.trim()) tagsHTML += `<span class="text-[10px] font-bold text-brand-600 bg-brand-500/10 px-1.5 py-0.5 rounded mr-1">${t.trim().startsWith('#') ? t.trim() : '#'+t.trim()}</span>`; }); }
+                grid.innerHTML += `<div class="glass-panel rounded-3xl p-5 shadow-sm border border-white/20 flex flex-col"><div class="flex justify-between items-start mb-2"><span class="text-xs font-bold bg-black/10 px-2 py-1 rounded-lg">${j.mood || ''}</span><span class="text-[10px] opacity-60 ml-auto mr-3 flex items-center">${j.date}</span><button onclick="deleteJournal('${j.id}')" class="opacity-40 hover:opacity-100 text-rose-500"><i data-lucide="trash" class="w-4 h-4"></i></button></div><h4 class="font-display font-bold text-lg leading-tight">${j.title}</h4><div class="flex items-center gap-3 text-[10px] font-bold opacity-60 mb-2 mt-1"><span>${j.weather || ''}</span>${j.location ? `<span><i data-lucide="map-pin" class="w-3 h-3 inline"></i> ${j.location}</span>` : ''}</div><p class="text-sm opacity-80 flex-1 mt-1 leading-relaxed">${j.content}</p><div class="mt-2 flex flex-wrap gap-1">${tagsHTML}</div>${imgHTML}</div>`;
+            });
+            lucide.createIcons();
+        }
+
         function handleImageInput(input, imgId) { const p = document.getElementById(imgId); if (input.files && input.files[0]) { const r = new FileReader(); r.onload = e => { p.src = e.target.result; p.classList.remove('hidden'); }; r.readAsDataURL(input.files[0]); } }
         function openLightbox(src) { document.getElementById('lightboxImg').src = src; openModal('lightboxModal'); }
-        
-        // Export / Import Updated to include Paylaters
-        function exportData() { const d = { settings, categories, transactions, journals, paylaters }; const b = new Blob([JSON.stringify(d)], { type: 'application/json' }); const u = URL.createObjectURL(b); const a = document.createElement('a'); a.href = u; a.download = `Sandra_Backup_${new Date().toISOString().split('T')[0]}.json`; a.click(); URL.revokeObjectURL(u); }
-        function importData(e) { const f = e.target.files[0]; if(!f) return; const r = new FileReader(); r.onload = evt => { try { const p = JSON.parse(evt.target.result); if(p.settings) settings = p.settings; if(p.categories) categories = p.categories; if(p.transactions) transactions = p.transactions; if(p.journals) journals = p.journals; if(p.paylaters) paylaters = p.paylaters; localStorage.setItem('sandrApp_settings', JSON.stringify(settings)); localStorage.setItem('sandrApp_categories', JSON.stringify(categories)); localStorage.setItem('sandrApp_transactions', JSON.stringify(transactions)); localStorage.setItem('sandrApp_journals', JSON.stringify(journals)); localStorage.setItem('sandrApp_paylaters', JSON.stringify(paylaters)); applySettings(); renderCategories(); renderTransactions(); renderJournals(); renderPaylaters(); customAlert("Sukses!", "Data dikembalikan.", "🎉"); } catch(err) { customAlert("Error", "File JSON tidak valid.", "❌"); } }; r.readAsText(f); }
+
+        // Export / Import Data JSON
+        function exportData() {
+            const d = { settings, categories, accounts, transactions, journals, paylaters };
+            const b = new Blob([JSON.stringify(d)], { type: 'application/json' });
+            const u = URL.createObjectURL(b); const a = document.createElement('a'); a.href = u;
+            a.download = `Sandra_Backup_${new Date().toISOString().split('T')[0]}.json`;
+            a.click(); URL.revokeObjectURL(u);
+        }
+
+        function importData(e) {
+            const f = e.target.files[0]; if(!f) return;
+            const r = new FileReader();
+            r.onload = evt => {
+                try {
+                    const p = JSON.parse(evt.target.result);
+                    if(p.settings) settings = p.settings;
+                    if(p.categories) categories = p.categories;
+                    if(p.accounts) accounts = p.accounts;
+                    if(p.transactions) transactions = p.transactions;
+                    if(p.journals) journals = p.journals;
+                    if(p.paylaters) paylaters = p.paylaters;
+
+                    localStorage.setItem('sandrApp_settings', JSON.stringify(settings));
+                    localStorage.setItem('sandrApp_categories', JSON.stringify(categories));
+                    localStorage.setItem('sandrApp_accounts', JSON.stringify(accounts));
+                    localStorage.setItem('sandrApp_transactions', JSON.stringify(transactions));
+                    localStorage.setItem('sandrApp_journals', JSON.stringify(journals));
+                    localStorage.setItem('sandrApp_paylaters', JSON.stringify(paylaters));
+
+                    applySettings(); renderCategories(); renderAccountDropdowns(); renderAccountsGrid(); renderTransactions(); renderJournals(); renderPaylaters();
+                    customAlert("Sukses!", "Data berhasil di-import.", "🎉");
+                } catch(err) {
+                    customAlert("Error", "File JSON tidak valid.", "❌");
+                }
+            };
+            r.readAsText(f);
+        }
     </script>
 </body>
 </html>
